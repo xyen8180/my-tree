@@ -16,5 +16,5 @@
 # limitations under the License.
 #
 
-add_lunch_combo omni_star-userdebug
-add_lunch_combo omni_star-eng
+add_lunch_combo twrp_star-userdebug
+add_lunch_combo twrp_star-eng
