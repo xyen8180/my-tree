@@ -67,6 +67,7 @@ BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 2
 # qcom hardware
 BOARD_USE_QCOM_HARDWARE := true
 PRODUCT_BOARD_PLATFORM := sm8350
+BOARD_USES_QCOM_FBE_DECRYPTION := true
 
 # File systems
 BOARD_HAS_LARGE_FILESYSTEM := true
@@ -123,6 +124,7 @@ TARGET_KERNEL_SOURCE := kernel/xiaomi/star
 TARGET_KERNEL_CONFIG := star_defconfig
 TARGET_KERNEL_CLANG_COMPILE := true
 TARGET_COMPILE_WITH_MSM_KERNEL := true
+TARGET_RECOVERY_DEVICE_MODULES += libion libandroidicu vendor.display.config@1.0 vendor.display.config@2.0 libdisplayconfig.qti vendor.qti.hardware.vibrator.service vendor.qti.hardware.vibrator.impl libqtivibratoreffect
 
 # Platform
 TARGET_BOARD_PLATFORM := lahaina
@@ -171,3 +173,5 @@ TARGET_USES_MKE2FS := true
 TW_EXCLUDE_TWRPAPP := true
 TW_NO_SCREEN_BLANK := true
 TW_INCLUDE_NTFS_3G := true
+TW_INCLUDE_FBE_METADATA_DECRYPT := true
+
