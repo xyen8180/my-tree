@@ -20,7 +20,7 @@ DEVICE_PATH := device/xiaomi/star
 
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
-PRODUCT_USE_DYNAMIC_PARTITIONS := true
+
 
 
 # Architecture
