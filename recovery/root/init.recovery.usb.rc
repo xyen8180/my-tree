@@ -171,4 +171,3 @@ on property:sys.usb.config=fastboot
     restart fastbootd
 
 
-
