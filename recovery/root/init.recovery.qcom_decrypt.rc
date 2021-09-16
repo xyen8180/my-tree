@@ -6,15 +6,7 @@ on fs
     chmod 0660 /dev/qseecom
     chown system drmrpc /dev/qseecom
     chmod 0664 /dev/ion
-    
-on boot    
     chown system system /dev/ion
-    mknod /dev/xiaomi_touch c 10 120
-    chown system system /dev/xiaomi-touch
-    chmod 0664 /dev/xiaomi-touch
-    start touchfeature
-    insmod /vendor/lib/modules/xiaomi_touch.ko        
-    insmod /vendor/lib/modules/fts_touch_spi.ko
 
 # && property:ro.boot.dynamic_partitions=true prop is only for devices with dynamic partitions.
 # This property trigger will automatically be removed from the file at the end of the build
@@ -29,14 +21,29 @@ on property:crypto.ready=1 && property:hwservicemanager.ready=true
     start qseecomd
 
 on property:sys.listeners.registered=true
+    start keymaster-3-0
+    start keymaster-3-0-qti
+    start keymaster-4-0
+    start keymaster-4-0-qti
+    start keymaster-4-1
     start keymaster-4-1-qti
 
 on property:vendor.sys.listeners.registered=true
+    start keymaster-3-0
+    start keymaster-3-0-qti
+    start keymaster-4-0
+    start keymaster-4-0-qti
+    start keymaster-4-1
     start keymaster-4-1-qti
 
 on property:ro.crypto.type=block && property:ro.crypto.fs_crypto_blkdev=*
     setprop crypto.ready 0
     stop qseecomd
+    stop keymaster-3-0
+    stop keymaster-3-0-qti
+    stop keymaster-4-0
+    stop keymaster-4-0-qti
+    stop keymaster-4-1
     stop keymaster-4-1-qti
 
 # For Android 10+ trees, services should be placed in /system/bin in the recovery ramdisk
@@ -64,7 +71,39 @@ service qseecomd /system/bin/qseecomd
     oneshot
     seclabel u:r:recovery:s0
 
-service touchfeature /vendor/bin/hw/vendor.xiaomi.hw.touchfeature@1.0-service
+service keymaster-3-0 /system/bin/android.hardware.keymaster@3.0-service
+    user root
+    group root
+    setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib:/system/lib64:/system/lib:/sbin
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
+service keymaster-3-0-qti /system/bin/android.hardware.keymaster@3.0-service-qti
+    user root
+    group root
+    setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib:/system/lib64:/system/lib:/sbin
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
+service keymaster-4-0 /system/bin/android.hardware.keymaster@4.0-service
+    user root
+    group root
+    setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib:/system/lib64:/system/lib:/sbin
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
+service keymaster-4-0-qti /system/bin/android.hardware.keymaster@4.0-service-qti
+    user root
+    group root
+    setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib:/system/lib64:/system/lib:/sbin
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
+service keymaster-4-1 /system/bin/android.hardware.keymaster@4.1-service
     user root
     group root
     setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib:/system/lib64:/system/lib:/sbin
