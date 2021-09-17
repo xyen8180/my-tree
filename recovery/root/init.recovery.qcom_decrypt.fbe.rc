@@ -12,10 +12,10 @@ on property:twrp.all.users.decrypted=true
     stop qseecomd
     stop gatekeeper-1-0
     stop gatekeeper-1-0-qti
+    stop keymaster-3-0
+    stop keymaster-3-0-qti
     stop keymaster-4-0
     stop keymaster-4-0-qti
-    stop keymaster-4-1
-    stop keymaster-4-1-qti
 
 # For Android 10+ trees, services should be placed in /system/bin in the recovery ramdisk
 # For older trees, the services should be placed in /sbin
