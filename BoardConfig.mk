@@ -100,7 +100,17 @@ AB_OTA_UPDATER := true
 TW_INCLUDE_REPACKTOOLS := true
 
 # Kernel
-BOARD_KERNEL_CMDLINE := ramoops_memreserve=4M log_buf_len=256K rcupdate.rcu_expedited=1 rcu_nocbs=0-7 kpti=off console=ttyMSM0,115200n8 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=a600000.dwc3 swiotlb=0 loop.max_part=7 cgroup.memory=nokmem,nosocket pcie_ports=compat loop.max_part=7 iptable_raw.raw_before_defrag=1 ip6table_raw.raw_before_defrag=1 buildvariant=user twrpfastboot=1 androidboot.verifiedbootstate=orange androidboot.keymaster=1 androidboot.vbmeta.device=PARTUUID=3a7c35c3-0bb3-d89b-5d1c-08008021f37f androidboot.vbmeta.avb_version=1.0 androidboot.vbmeta.device_state=unlocked androidboot.vbmeta.hash_alg=sha256 androidboot.vbmeta.size=7104 androidboot.vbmeta.digest=b3a6103aca607af698083cfc47b2ff9a5167dcc5785bbdb348c526cba3637093 androidboot.vbmeta.invalidate_on_error=yes androidboot.veritymode=enforcing
+BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 \
+   androidboot.hardware=qcom \
+   androidboot.console=ttyMSM0 \
+   androidboot.memcg=1 \
+   video=vfb:640x400,bpp=32,memsize=3072000 \
+   service_locator.enable=1 \
+   androidboot.usbcontroller=a600000.dwc3 \
+   swiotlb=0 \
+   loop.max_part=7 \
+   androidboot.bootdevice=1d84000.ufshc \ 
+   androidboot.serialno=7aa4ad93
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x014b96fc
 BOARD_KERNEL_PAGESIZE := 4096
