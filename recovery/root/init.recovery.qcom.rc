@@ -27,6 +27,13 @@
 
 import /init.recovery.qcom_decrypt.rc
 
+on early-init
+    insmod /vendor/lib/modules/q6_pdr_dlkm.ko
+    insmod /vendor/lib/modules/q6_notifier_dlkm.ko
+    insmod /vendor/lib/modules/snd_event_dlkm.ko
+    insmod /vendor/lib/modules/apr_dlkm.ko
+    insmod /vendor/lib/modules/adsp_loader_dlkm.ko
+
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
@@ -45,10 +52,6 @@ on boot
     insmod /vendor/lib/modules/xiaomi_touch.ko
     insmod /vendor/lib/modules/fts_touch_spi.ko
     insmod /vendor/lib/modules/focaltech_touch.ko
-    insmod /vendor/lib/modules/q6_notifier_dlkm.ko
-    insmod /vendor/lib/modules/fts_touch_spi.ko
-    insmod /vendor/lib/modules/apr_dlkm.ko
-    insmod /vendor/lib/modules/adsp_loader_dlkm.ko
 
 on init
 service touchfeature_v2-hal-1-0 /vendor/bin/hw/vendor.xiaomi.hw.touchfeature@1.0-service
@@ -60,7 +63,8 @@ service touchfeature_v2-hal-1-0 /vendor/bin/hw/vendor.xiaomi.hw.touchfeature@1.0
     recovery u:r:recovery:s0
     
 on boot
-    start health-hal-2-1
+    setprop sys.usb.config adb
+	start health-hal-2-1
     start touchfeature_v2-hal-1-0
     
 on post-fs
