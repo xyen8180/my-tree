@@ -2,25 +2,9 @@
 
 # The below variables shouldn't need to be changed
 # unless you want to call the script something else
-SCRIPTNAME="prepdecrypt"
+SCRIPTNAME="PrepDecrypt"
 LOGFILE=/tmp/recovery.log
 
-#
-# Override default settings
-#
-# If you want to force setting of osver and patchlevel to the system/vendor version,
-# set the below prop in init.recovery "on init" to trigger the override function
-check_setpatch_override()
-{
-	setpatch_prop=$(getprop $SCRIPTNAME.setpatch)
-	if [ -z "$setpatch_prop" ]; then
-		SETPATCH_OVERRIDE=false
-	else
-		SETPATCH_OVERRIDE=true
-		log_print 2 "SETPATCH Override flag found."
-		SETPATCH=$setpatch_prop
-	fi
-}
 #
 # Default TWRP values for PLATFORM_VERSION and PLATFORM_SECURITY_PATCH
 #
@@ -28,20 +12,14 @@ check_setpatch_override()
 # set to the below values respectively if these props are blank when
 # the script runs. These values should be updated to reflect the
 # TWRP defaults in your device's BoardConfig.mk
-osver_twrp="80"
+osver_twrp="20.1.0"
 patchlevel_twrp="2099-12-31"
 
 # Set default log level
-DEFAULT_LOGLEVEL=2
 # 0 Errors only
 # 1 Errors and Information
 # 2 Errors, Information, and Debugging
-CUSTOM_LOGLEVEL=$(getprop $SCRIPTNAME.loglevel)
-if [ -n "$CUSTOM_LOGLEVEL" ]; then
-	__VERBOSE="$CUSTOM_LOGLEVEL"
-else
-	__VERBOSE="$DEFAULT_LOGLEVEL"
-fi
+__VERBOSE=1
 
 # Exit codes:
 # 0 Success
@@ -53,13 +31,13 @@ log_print()
 {
 	# 0 = Error; 1 = Information; 2 = Debugging
 	case $1 in
-		0|error)
+		0)
 			LOG_LEVEL="E"
 			;;
-		1|info)
+		1)
 			LOG_LEVEL="I"
 			;;
-		2|debug)
+		2)
 			LOG_LEVEL="DEBUG"
 			;;
 		*)
@@ -74,7 +52,7 @@ log_print()
 relink()
 {
 	log_print 2 "Updating linker path for $1..."
-	blobs=$(find "$1" -type f -exec echo '{}' \;)
+	blobs=$(find $1 -type f -exec echo '{}' \;)
 	if [ -n "$blobs" ]; then
 		for source in $blobs; do
 			fname=$(basename "$source")
@@ -92,11 +70,9 @@ finish()
 {
 	if [ "$SETPATCH" = "true" ]; then
 		umount "$TEMPSYS"
-		$setprop_bin $SCRIPTNAME.system_mounted 0
 		rmdir "$TEMPSYS"
 		if [ "$MNT_VENDOR" = "true" ]; then
 			umount "$TEMPVEN"
-			$setprop_bin $SCRIPTNAME.vendor_mounted 0
 			rmdir "$TEMPVEN"
 		fi
 	fi
@@ -110,11 +86,9 @@ finish_error()
 {
 	if [ "$SETPATCH" = "true" ]; then
 		umount "$TEMPSYS"
-		$setprop_bin $SCRIPTNAME.system_mounted 0
 		rmdir "$TEMPSYS"
 		if [ "$MNT_VENDOR" = "true" ]; then
 			umount "$TEMPVEN"
-			$setprop_bin $SCRIPTNAME.vendor_mounted 0
 			rmdir "$TEMPVEN"
 		fi
 	fi
@@ -125,13 +99,13 @@ finish_error()
 
 osver_default_value()
 {
-	osver_default=$(grep "$1=" /"$DEFAULTPROP")
+	osver_default=$(grep "$1" /"$DEFAULTPROP")
 	log_print 2 "$DEFAULTPROP value: $osver_default"
 }
 
 patchlevel_default_value()
 {
-	patchlevel_default=$(grep "$1=" /"$DEFAULTPROP")
+	patchlevel_default=$(grep "$1" /"$DEFAULTPROP")
 	log_print 2 "$DEFAULTPROP value: $patchlevel_default"
 	finish
 }
@@ -165,14 +139,6 @@ update_default_values()
 	fi
 }
 
-check_dynamic()
-{
-	dynamic_partitions=$(getprop ro.boot.dynamic_partitions)
-	if [ "$dynamic_partitions" = "true" ]; then
-		unset suffix
-	fi
-}
-
 check_encrypt()
 {
 	if [ "$sdkver" -ge 26 ]; then
@@ -186,37 +152,6 @@ check_encrypt()
 	else
 		log_print 0 "Unknown decryption type or type not set. Exiting script."
 		exit 1
-	fi
-}
-
-check_fastboot_boot()
-{
-	is_fastboot_boot=$(getprop ro.boot.fastboot)
-	twrpfastboot=$(grep twrpfastboot /proc/cmdline)
-	skip_initramfs_present=$(grep skip_initramfs /proc/cmdline)
-	if [ -n "$is_fastboot_boot" ]; then
-		if [ "$SETPATCH_OVERRIDE" = "false" ]; then
-			SETPATCH=false
-		fi
-		log_print 2 "Fastboot boot detected. ro.boot.fastboot=$is_fastboot_boot"
-	elif [ -z "$is_fastboot_boot" ] && [ -n "$twrpfastboot" ]; then
-		if [ "$SETPATCH_OVERRIDE" = "false" ]; then
-			SETPATCH=false
-		fi
-		log_print 2 "twrpfastboot flag found. Setting ro.boot.fastboot..."
-		$setprop_bin ro.boot.fastboot 1
-		is_fastboot_boot=$(getprop ro.boot.fastboot)
-		log_print 2 "ro.boot.fastboot=$is_fastboot_boot"
-	elif [ -z "$is_fastboot_boot" ] && [ -n "$skip_initramfs_present" ]; then
-		if [ "$SETPATCH_OVERRIDE" = "false" ]; then
-			SETPATCH=false
-		fi
-		log_print 2 "skip_initramfs flag found. Setting ro.boot.fastboot..."
-		$setprop_bin ro.boot.fastboot 1
-		is_fastboot_boot=$(getprop ro.boot.fastboot)
-		log_print 2 "ro.boot.fastboot=$is_fastboot_boot"
-	else
-		log_print 2 "Recovery mode boot detected."
 	fi
 }
 
@@ -243,8 +178,6 @@ temp_mount()
 	mount -t ext4 -o ro "$3" "$1"
 	if [ -n "$(ls -A "$1" 2>/dev/null)" ]; then
 		log_print 2 "$2 mounted at $1."
-		$setprop_bin $SCRIPTNAME."$2"_mounted 1
-		log_print 2 "$SCRIPTNAME.$2_mounted=$(getprop "$SCRIPTNAME"."$2"_mounted)"
 	else
 		log_print 0 "Unable to mount $2 to temporary folder."
 		finish_error
@@ -300,43 +233,33 @@ if [ -n "$ab_device" ]; then
 fi
 
 recpath="/dev/block/bootdevice/by-name/recovery$suffix"
-check_setpatch_override
+
 if [ -e "$recpath" ]; then
 	log_print 2 "Device has recovery partition!"
 	# This should only be set to true for devices with recovery-in-boot
-	if [ "$SETPATCH_OVERRIDE" = "false" ]; then
-		SETPATCH=false
-	fi
+	SETPATCH=false
 else
 	log_print 2 "No recovery partition found."
-    if [ "$SETPATCH_OVERRIDE" = "false" ]; then
-        SETPATCH=true
-    fi
+	SETPATCH=true
 fi
 
 if [ "$sdkver" -ge 26 ]; then
-	if [ -z "$setprop_bin" ]; then
-		check_resetprop
-	fi
-
-	check_fastboot_boot
-
-	check_setpatch_override
-	log_print 1 "SETPATCH=$SETPATCH"
-	if [ "$SETPATCH" = false ]; then
+	is_fastboot_boot=$(getprop ro.boot.fastboot)
+	skip_initramfs_present=$(grep skip_initramfs /proc/cmdline)
+	if [ "$SETPATCH" = false ] || [ -n "$skip_initramfs_present" ] || [ -n "$is_fastboot_boot" ]; then
+		log_print 1 "SETPATCH=false, skip_initramfs flag, or ro.boot.fastboot found."
+		# Be sure to increase the PLATFORM_VERSION in build/core/version_defaults.mk to override Google's anti-rollback features to something rather insane
 		update_default_values "$osver" "$osver_orig" "OS version" "ro.build.version.release" osver_default_value
 		update_default_values "$patchlevel" "$patchlevel_orig" "Security Patch Level" "ro.build.version.security_patch" patchlevel_default_value
 	else
+		log_print 1 "SETPATCH=$SETPATCH"
 		log_print 2 "Build tree is Oreo or above. Proceed with setting props..."
 
-		check_dynamic
-
-		BUILDPROP="build.prop"
+		BUILDPROP=build.prop
 		TEMPSYS=/s
 		syspath="/dev/block/bootdevice/by-name/system$suffix"
 
 		if [ "$sdkver" -ge 29 ]; then
-			SAR=true
 			MNT_VENDOR=true
 			TEMPVEN=/v
 			venpath="/dev/block/bootdevice/by-name/vendor$suffix"
@@ -349,52 +272,49 @@ if [ "$sdkver" -ge 26 ]; then
 				log_print 2 "Current vendor Android SDK version: $vensdkver"
 				if [ "$vensdkver" -gt 25 ]; then
 					log_print 2 "Current vendor is Oreo or above. Proceed with setting vendor security patch level..."
-					venpatchlevel=$(getprop ro.vendor.build.security_patch)
+					check_resetprop
 					log_print 2 "Current Vendor Security Patch Level: $venpatchlevel"
-					venpatchlevel_device=$(grep -i 'ro.vendor.build.security_patch=' "$TEMPVEN/$BUILDPROP"  | cut -f2 -d'=' -s)
-					if ! [ "$venpatchlevel" = "venpatchlevel_device" ]; then
-						$setprop_bin "ro.vendor.build.security_patch" "$venpatchlevel_device"
-						sed -i "s/ro.vendor.build.security_patch=.*/ro.vendor.build.security_patch=""$venpatchlevel_device""/g" "/$DEFAULTPROP" ;
+					venpatchlevel=$(grep -i 'ro.vendor.build.security_patch=' "$TEMPVEN/$BUILDPROP"  | cut -f2 -d'=' -s)
+					if [ -n "$venpatchlevel" ]; then
+						$setprop_bin "ro.vendor.build.security_patch" "$venpatchlevel"
+						sed -i "s/ro.vendor.build.security_patch=.*/ro.vendor.build.security_patch=""$venpatchlevel""/g" "/$DEFAULTPROP" ;
 						venpatchlevel_new=$(getprop ro.vendor.build.security_patch)
 						venpatchlevel_default=$(grep -i 'ro.vendor.build.security_patch=' /$DEFAULTPROP | cut -f2 -d'=' -s)
-						if [ "$venpatchlevel_device" = "$venpatchlevel_new" ]; then
+						if [ "$venpatchlevel" = "$venpatchlevel_new" ]; then
 							log_print 2 "$setprop_bin successful! New Vendor Security Patch Level: $venpatchlevel_new"
 						else
 							log_print 0 "$setprop_bin failed. Vendor Security Patch Level unchanged."
 						fi
-						if [ "$venpatchlevel_device" = "$venpatchlevel_default" ]; then
+						if [ "$venpatchlevel" = "$venpatchlevel_default" ]; then
 							log_print 2 "$DEFAULTPROP update successful! ro.vendor.build.security_patch=$venpatchlevel_default"
 						else
 							log_print 0 "$DEFAULTPROP update failed. Vendor Security Patch Level unchanged."
-						fi
-					else
-						venpatchlevel_default=$(grep -i 'ro.vendor.build.security_patch=' /$DEFAULTPROP | cut -f2 -d'=' -s)
-						if ! [ "$venpatchlevel_device" = "$venpatchlevel_default" ]; then
-							sed -i "s/ro.vendor.build.security_patch=.*/ro.vendor.build.security_patch=""$venpatchlevel_device""/g" "/$DEFAULTPROP" ;
 						fi
 					fi
 				else
 					log_print 2 "Current vendor is Nougat or older. Skipping vendor security patch level setting..."
 				fi
 			fi
-		else
-			SAR=$(getprop ro.build.system_root_image)
-		fi
-
-		if [ "$SAR" = "true" ]; then
-			log_print 2 "System-as-Root device detected! Updating build.prop path variable..."
-			BUILDPROP="system/build.prop"
-			log_print 2 "Build.prop location set to $BUILDPROP."
 		fi
 
 		temp_mount "$TEMPSYS" "system" "$syspath"
 
+		sar=$(getprop ro.build.system_root_image)
+		if [ "$sar" = "true" ]; then
+			log_print 2 "System-as-Root device detected! Updating build.prop path variable..."
+			BUILDPROP="system/build.prop"
+			log_print 2 "Build.prop location set to $BUILDPROP."
+		fi
 		if [ -f "$TEMPSYS/$BUILDPROP" ]; then
 			log_print 2 "Build.prop exists! Reading system properties from build.prop..."
 			sdkver=$(grep -i 'ro.build.version.sdk=' "$TEMPSYS/$BUILDPROP"  | cut -f2 -d'=' -s)
 			log_print 2 "Current system Android SDK version: $sdkver"
 			if [ "$sdkver" -gt 25 ]; then
 				log_print 2 "Current system is Oreo or above. Proceed with setting OS Version & Security Patch Level..."
+				if [ -z "$setprop_bin" ]; then
+					check_resetprop
+				fi
+				# TODO: It may be better to try to read these from the boot image than from /system
 				log_print 2 "Current OS Version: $osver"
 				osver=$(grep -i 'ro.build.version.release=' "$TEMPSYS/$BUILDPROP"  | cut -f2 -d'=' -s)
 				if [ -n "$osver" ]; then
