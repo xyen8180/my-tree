@@ -1,6 +1,7 @@
 <!--
     Input:
         manifest.xml
+        c2_manifest.xml
 -->
 <manifest version="2.0" type="device" target-level="5">
     <hal format="hidl">
@@ -584,6 +585,7 @@
         </interface>
         <fqname>@1.0::ITouchFeature/default</fqname>
     </hal>
+	<hal format="hidl">
 	<name>android.hardware.ir</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
@@ -593,7 +595,7 @@
         </interface>
         <fqname>@1.0::IConsumerIr/default</fqname>
     </hal>
-	 <hal format="hidl">
+	<hal format="hidl">
         <name>android.hardware.media.c2</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
@@ -603,7 +605,7 @@
         </interface>
         <fqname>@1.0::IComponentStore/default</fqname>
     </hal>
-	 <hal format="hidl">
+	<hal format="hidl">
         <name>android.hardware.radio</name>
         <transport>hwbinder</transport>
         <fqname>@1.2::ISap/slot1</fqname>
@@ -611,7 +613,7 @@
         <fqname>@1.4::IRadio/slot1</fqname>
         <fqname>@1.4::IRadio/slot2</fqname>
     </hal>
-	 <hal format="hidl">
+	<hal format="hidl">
         <name>android.hardware.renderscript</name>
         <transport arch="32+64">passthrough</transport>
         <version>1.0</version>
@@ -621,7 +623,7 @@
         </interface>
         <fqname>@1.0::IDevice/default</fqname>
     </hal>
-	 <hal format="hidl">
+	<hal format="hidl">
         <name>android.hardware.sensors</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
@@ -631,7 +633,7 @@
         </interface>
         <fqname>@1.0::ISensors/default</fqname>
     </hal>
-	 <hal format="hidl">
+	<hal format="hidl">
         <name>com.fingerprints.extension</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
@@ -792,7 +794,7 @@
         </interface>
         <fqname>@1.0::IXiaomiFingerprint/default</fqname>
     </hal>
-	   <hal format="hidl">
+	<hal format="hidl">
         <name>vendor.xiaomi.hardware.citsensorservice</name>
         <transport>hwbinder</transport>
         <version>1.1</version>
@@ -802,7 +804,7 @@
         </interface>
         <fqname>@1.1::ICitSensorService/default</fqname>
     </hal>
-	 <hal format="hidl">
+	<hal format="hidl">
         <name>vendor.qti.power.pasrmanager</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
@@ -863,7 +865,7 @@
         <fqname>@1.2::IUim/Uim0</fqname>
         <fqname>@1.2::IUim/Uim1</fqname>
     </hal>
-	 <hal format="hidl">
+	<hal format="hidl">
         <name>vendor.qti.hardware.radio.qtiradio</name>
         <transport>hwbinder</transport>
         <version>2.4</version>
