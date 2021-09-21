@@ -566,7 +566,7 @@
         <fqname>@1.0::IDisplayFeature/default</fqname>
     </hal>
 	<hal format="hidl">
-        <name>vendor.xiaomi.hardware.touchfeature</name>
+        <name>vendor.xiaomi.hw.touchfeature</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
