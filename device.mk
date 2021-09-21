@@ -29,6 +29,7 @@ PRODUCT_SHIPPING_API_LEVEL := 30
 
 
 # A/B
+AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
     boot \
     dtbo \
@@ -66,6 +67,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     qcom_decrypt \
     qcom_decrypt_fbe
+
+PRODUCT_PACKAGES_DEBUG += update_engine_client
 
 # Fastbootd
 PRODUCT_PACKAGES += \
