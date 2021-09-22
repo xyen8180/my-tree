@@ -23,7 +23,7 @@ on property:twrp.all.users.decrypted=true
 # change the linker path in each binary from /system/bin/linker(64) to /sbin/linker(64)
 
 
-service gatekeeper-1-0-qti /system/bin/android.hardware.gatekeeper@1.0-service-qti
+service gatekeeper-1-0-qti /vendor/bin/hw/android.hardware.gatekeeper@1.0-service-qti
     user root
     group root
     setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib:/system/lib64:/system/lib:/sbin
