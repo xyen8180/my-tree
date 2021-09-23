@@ -1,5 +1,5 @@
 on post-fs
-    start boot-hal-1-0
+ #   start boot-hal-1-0
 
 service boot-hal-1-0 /vendor/bin/hw/android.hardware.boot@1.0-service
     interface android.hardware.boot@1.0::IBootControl default
