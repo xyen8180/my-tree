@@ -884,6 +884,16 @@
         <fqname>@1.6::IImsRadio/imsradio0</fqname>
         <fqname>@1.6::IImsRadio/imsradio1</fqname>
     </hal>
+	<hal format="hidl">
+		<name>android.hardware.boot</name>
+		<transport>hwbinder</transport>
+		<version>1.0</version>
+		<interface>
+			<name>IBootControl</name>
+			<instance>default</instance>
+		</interface>
+		<fqname>@1.0::IBootControl/default</fqname>
+	</hal>
     <sepolicy>
         <version>30.0</version>
     </sepolicy>

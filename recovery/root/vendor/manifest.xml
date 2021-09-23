@@ -2,16 +2,6 @@
 	<hal format="hidl">
 		<name>android.hardware.boot</name>
 		<transport>hwbinder</transport>
-		<version>1.0</version>
-		<interface>
-			<name>IBootControl</name>
-			<instance>default</instance>
-		</interface>
-		<fqname>@1.0::IBootControl/default</fqname>
-	</hal>
-	<hal format="hidl">
-		<name>android.hardware.boot</name>
-		<transport>hwbinder</transport>
 		<version>1.1</version>
 		<interface>
 			<name>IBootControl</name>
@@ -30,34 +20,33 @@
 		<fqname>@1.0::IGatekeeper/default</fqname>
 	</hal>
 	<hal format="hidl">
-        <name>vendor.xiaomi.hw.touchfeature</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>ITouchFeature</name>
-            <instance>default</instance>
-        </interface>
-        <fqname>@1.0::ITouchFeature/default</fqname>
-    </hal>
+		<name>vendor.xiaomi.hw.touchfeature</name>
+		<transport>hwbinder</transport>
+		<version>1.0</version>
+		<interface>
+			<name>ITouchFeature</name>
+			<instance>default</instance>
+		</interface>
+		<fqname>@1.0::ITouchFeature/default</fqname>
+	</hal>
 	<hal format="hidl">
-        <name>android.hardware.keymaster</name>
-        <transport>hwbinder</transport>
-        <version>4.1</version>
-        <interface>
-            <name>IKeymasterDevice</name>
-            <instance>default</instance>
-        </interface>
-        <fqname>@4.1::IKeymasterDevice/default</fqname>
-    </hal>
+		<name>android.hardware.keymaster</name>
+		<transport>hwbinder</transport>
+		<version>4.1</version>
+		<interface>
+			<name>IKeymasterDevice</name>
+			<instance>default</instance>
+		</interface>
+		<fqname>@4.1::IKeymasterDevice/default</fqname>
+	</hal>
 	<hal format="hidl">
-        <name>android.hardware.health</name>
-        <transport>hwbinder</transport>
+		<name>android.hardware.health</name>
+		<transport>hwbinder</transport>
 		<version>2.1</version>
 		<interface>
-            <name>IHealth</name>
-            <instance>default</instance>
-        </interface>
-        <fqname>@2.1::IHealth/default</fqname>
-    </hal>
+		<name>IHealth</name>
+		<instance>default</instance>
+		</interface>
+		<fqname>@2.1::IHealth/default</fqname>
+	</hal>
 </manifest>
-
