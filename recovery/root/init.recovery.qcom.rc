@@ -10,9 +10,6 @@ on early-init
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
-    
-on post-fs
-    start boot-hal-1-1
 	
 on boot
     setprop sys.usb.config adb
