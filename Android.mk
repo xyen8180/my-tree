@@ -56,8 +56,6 @@ ifeq ($(BOARD_USES_QCOM_FBE_DECRYPTION),true)
     # from TARGET_ROOT_OUT thereafter
     LOCAL_POST_INSTALL_CMD += \
         cp -f $(LOCAL_PATH)/crypto_fbe/init.recovery* $(TARGET_ROOT_OUT); \
-        bash $(LOCAL_PATH)/scripts/service_cleanup.bash; \
-        bash $(LOCAL_PATH)/scripts/create_manifests.bash
     include $(BUILD_PHONY_PACKAGE)
 endif
 
@@ -74,8 +72,6 @@ ifeq ($(BOARD_USES_QCOM_DECRYPTION),true)
     LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)/system/bin
     LOCAL_REQUIRED_MODULES := android.hidl.token@1.0 teamwin
 	
-	LOCAL_VINTF_FRAGMENTS := android.hardware.boot@1.1.xml
-	LOCAL_VINTF_FRAGMENTS := android.hardware.health@2.1.xml
 
     # Cannot send to TARGET_RECOVERY_ROOT_OUT since build system wipes init*.rc
     # during ramdisk creation and only allows init.recovery.*.rc files to be copied
