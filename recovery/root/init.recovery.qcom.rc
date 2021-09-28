@@ -27,3 +27,6 @@ on late-fs
 
     # Mount RW partitions which need run fsck
     mount_all /vendor/etc/fstab.qcom --late
+	
+on post-fs
+    start boot-hal-1-1
