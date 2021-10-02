@@ -169,4 +169,4 @@ TW_INCLUDE_NTFS_3G := true
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
 TW_INCLUDE_INJECTTWRP := true
 TWRP_EVENT_LOGGING := true
-RECOVERY_INSTALLER_PATH := $(DEVICE_PATH)/recovery/root/sbin/xyen_install_twrp.zip
+TW_INJECT_AFTER_ZIP := $(DEVICE_PATH)/recovery/root/sbin/xyen_install_twrp.zip
