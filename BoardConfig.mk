@@ -98,7 +98,7 @@ TW_INCLUDE_REPACKTOOLS := true
 
 # Kernel
 BOARD_KERNEL_CMDLINE := 
-BOARD_KERNEL_CMDLINE += androidboot.force_normal_boot=1
+#BOARD_KERNEL_CMDLINE += androidboot.force_normal_boot=1
 #BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x014b96fc
 BOARD_KERNEL_PAGESIZE := 4096
