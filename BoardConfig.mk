@@ -177,4 +177,4 @@ TW_INCLUDE_FBE_METADATA_DECRYPT := true
 #TW_INCLUDE_INJECTTWRP := true
 TWRP_EVENT_LOGGING := true
 RECOVERY_INSTALLER_PATH := $(DEVICE_PATH)/recovery/root/sbin/
-TW_LOAD_VENDOR_MODULES := "xiaomi_touch.ko focaltech_touch.ko fts_touch_spi.ko"
+#TW_LOAD_VENDOR_MODULES := "xiaomi_touch.ko focaltech_touch.ko fts_touch_spi.ko"
