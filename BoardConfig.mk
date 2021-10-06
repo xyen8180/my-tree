@@ -17,7 +17,7 @@
 #
 
 DEVICE_PATH := device/xiaomi/star
-KERNEL_MODULES_OUT= $(DEVICE_PATH)/recovery/root/vendor/lib/modules
+#KERNEL_MODULES_OUT= $(DEVICE_PATH)/recovery/root/vendor/lib/modules
 
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
@@ -147,9 +147,9 @@ BOARD_SUPPRESS_SECURE_ERASE := true
 BOARD_USES_METADATA_PARTITION := true
 
 #vendor library
-BOARD_VENDOR_KERNEL_MODULES += $(KERNEL_MODULES_OUT)/xiaomi_touch.ko
-BOARD_VENDOR_KERNEL_MODULES += $(KERNEL_MODULES_OUT)/focaltech_touch.ko
-BOARD_VENDOR_KERNEL_MODULES += $(KERNEL_MODULES_OUT)/fts_touch_spi.ko
+#BOARD_VENDOR_KERNEL_MODULES += $(KERNEL_MODULES_OUT)/xiaomi_touch.ko
+#BOARD_VENDOR_KERNEL_MODULES += $(KERNEL_MODULES_OUT)/focaltech_touch.ko
+#BOARD_VENDOR_KERNEL_MODULES += $(KERNEL_MODULES_OUT)/fts_touch_spi.ko
 
 
 # TWRP Configuration
@@ -177,3 +177,4 @@ TW_INCLUDE_FBE_METADATA_DECRYPT := true
 #TW_INCLUDE_INJECTTWRP := true
 TWRP_EVENT_LOGGING := true
 RECOVERY_INSTALLER_PATH := $(DEVICE_PATH)/recovery/root/sbin/
+TW_LOAD_VENDOR_MODULES := "xiaomi_touch.ko focaltech_touch.ko fts_touch_spi.ko"

@@ -22,14 +22,13 @@ repo sync
 git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Building Recovery +++==="
-cd bootable/recovery
-curl -sL https://github.com/TeamWin/android_bootable_recovery/commit/22851b9476be92b6718baf6fb51eeefa9e2e6d0b.patch | patch -R -p1
-cd ..
-cd ..
 
 . build/envsetup.sh
 export ALLOW_MISSING_DEPENDENCIES=true
 lunch twrp_${DEVICE}-eng && mka bootimage
+
+cd $OUT/recovery/root
+ldcheck -p system/lib64:vendor/lib64 -d system/bin/qseecomd
 
 # Upload zips & boot.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
