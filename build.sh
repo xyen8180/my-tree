@@ -27,9 +27,6 @@ echo " ===+++ Building Recovery +++==="
 export ALLOW_MISSING_DEPENDENCIES=true
 lunch twrp_${DEVICE}-eng && mka bootimage
 
-cd $OUT/recovery/root
-ldcheck -p system/lib64:vendor/lib64 -d system/bin/qseecomd
-
 # Upload zips & boot.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
 version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d \" -f2)
