@@ -87,6 +87,7 @@ TARGET_COPY_OUT_VENDOR := vendor
 TARGET_COPY_OUT_PRODUCT := product
 TARGET_COPY_OUT_ODM := odm
 TARGET_COPY_OUT_SYSTEM_EXT := system_ext
+TARGET_COPY_OUT_SYSTEM := system
 
 # Platform
 TARGET_BOARD_PLATFORM := lahaina
@@ -176,5 +177,4 @@ TW_INCLUDE_NTFS_3G := true
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
 #TW_INCLUDE_INJECTTWRP := true
 TWRP_EVENT_LOGGING := true
-RECOVERY_INSTALLER_PATH := $(DEVICE_PATH)/recovery/root/sbin/
 #TW_LOAD_VENDOR_MODULES := "xiaomi_touch.ko focaltech_touch.ko fts_touch_spi.ko"
