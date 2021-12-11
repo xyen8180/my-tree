@@ -123,9 +123,6 @@ TARGET_RECOVERY_DEVICE_MODULES += libion libandroidicu vendor.display.config@1.0
 # Platform
 TARGET_BOARD_PLATFORM := lahaina
 
-# Properties
-TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
-
 # Dynamic Partitions
 BOARD_SUPER_PARTITION_SIZE := 9126805504
 BOARD_SUPER_PARTITION_ODM_DEVICE_SIZE := 1241088
