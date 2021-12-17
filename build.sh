@@ -3,8 +3,8 @@
 # Just a basic script U can improvise lateron asper ur need xD 
 
 MANIFEST="https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp -b twrp-11"
-SD_LINK="https://github.com/xyen8180/android_device_xiaomi_sm8350-common"
-SD_PATH=device/xiaomi/sm8350-common
+
+
 DEVICE=star
 DT_LINK="https://github.com/xyen8180/test-tree -b test"
 DT_PATH=device/xiaomi/$DEVICE
@@ -19,18 +19,17 @@ echo " ===+++ Syncing Recovery Sources +++==="
 repo init --depth=1 -u $MANIFEST
 repo sync
 repo sync
-git clone $DT_LINK $DT_PATH
-git clone $SD_LINK $SD_PATH
-git clone http://github.com/xyen8180/vendor_star vendor/xiaomi/sm8350-common/
-git clone https://github.com/nebrassy/kernel_xiaomi_sm8350 kernel/xiaomi/sm8350/
-chmod -R u+x *
-chmod -R u+x ./*
+git clone --depth=1 $DT_LINK $DT_PATH
 
 echo " ===+++ Building Recovery +++==="
 ls
 . build/envsetup.sh
 export ALLOW_MISSING_DEPENDENCIES=true
 lunch twrp_${DEVICE}-eng && mka bootimage
+
+cd $OUT/recovery/root
+./ldcheck -p system/lib64:vendor/lib64 -d system/bin/qseecomd
+cd -
 
 # Upload zips & boot.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
