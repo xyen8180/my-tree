@@ -8,7 +8,7 @@ MANIFEST="https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp -
 DEVICE=star
 DT_LINK="https://github.com/xyen8180/test-tree -b aosp"
 DT_PATH=device/xiaomi/$DEVICE
-SD_LINK="https://github.com/xyen8180/android_device_xiaomi_sm8350-common -b aosp"
+SD_LINK="https://github.com/xyen8180/android_device_xiaomi_sm8350-common"
 SD_PATH="device/xiaomi/sm8350-common"
 echo " ===+++ Setting up Build Environment +++==="
 apt install openssh-server -y
@@ -22,13 +22,13 @@ repo init --depth=1 -u $MANIFEST 2>/dev/null
 repo sync 2>/dev/null
 repo sync 2>/dev/null
 echo " ===+++ Device Tree Manifest  +++==="
-git clone --depth=1 $DT_LINK $DT_PATH 2>/dev/null
+git clone --depth=1 $DT_LINK $DT_PATH
 echo " ===+++ Cloning SM8350-common Tree  +++==="
-git clone --depth=1 $SD_LINK $SD_PATH 2>/dev/null
+git clone --depth=1 $SD_LINK $SD_PATH
 echo " ===+++ Cloning VEndor Manifest  +++==="
-git clone http://github.com/xyen8180/vendor_star vendor/xiaomi/sm8350-common/ 2>/dev/null
+git clone http://github.com/xyen8180/vendor_star vendor/xiaomi/sm8350-common/
 echo " ===+++ Cloning Kernel Tree   +++==="
-git clone https://github.com/nebrassy/kernel_xiaomi_sm8350  kernel/xiaomi/sm8350/ 2>/dev/null
+git clone https://github.com/nebrassy/kernel_xiaomi_sm8350  kernel/xiaomi/sm8350/
 echo " ===+++ Building Recovery +++==="
 chmod -R u+x *
 chmod -R u+x ./*
