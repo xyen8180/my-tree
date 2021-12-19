@@ -2,11 +2,11 @@
 
 # Just a basic script U can improvise lateron asper ur need xD 
 
-MANIFEST="https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp -b twrp-11"
+MANIFEST="git://github.com/omnirom/android.git -b android-12"
 
 
 DEVICE=star
-DT_LINK="https://github.com/xyen8180/test-tree -b aosp"
+DT_LINK="https://github.com/xyen8180/test-tree -b omni"
 DT_PATH=device/xiaomi/$DEVICE
 SD_LINK="https://github.com/xyen8180/android_device_xiaomi_sm8350-common"
 SD_PATH="device/xiaomi/sm8350-common"
@@ -18,7 +18,7 @@ mkdir ~/twrp && cd ~/twrp
 
 echo " ===+++ Syncing Recovery Sources +++==="
 echo " ===+++ Cloning Manifest  +++==="
-repo init --depth=1 -u $MANIFEST 2>/dev/null
+repo init -u $MANIFEST 2>/dev/null
 repo sync 2>/dev/null
 repo sync 2>/dev/null
 echo " ===+++ Device Tree Manifest  +++==="
@@ -38,7 +38,7 @@ echo " ===+++ Building Recovery +++==="
 
 . build/envsetup.sh
 export ALLOW_MISSING_DEPENDENCIES=true
-lunch twrp_${DEVICE}-eng && mka bootimage
+brunch twrp_${DEVICE}-eng && mka bootimage
 
 # Upload zips & boot.img (U can improvise lateron adding telegram support etc etc)
 echo " ===+++ Uploading Recovery +++==="
